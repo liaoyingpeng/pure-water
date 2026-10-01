@@ -1,0 +1,1 @@
+{"scripts":{"dev":"vite --open /dev.html","build":"vite build && node scripts/make-standalone.mjs","preview":"vite preview"},"dependencies":{"@vitejs/plugin-react":"latest","lucide-react":"latest","react":"latest","react-dom":"latest","recharts":"latest","typescript":"latest","vite":"latest"},"devDependencies":{"prettier":"^3.9.9"}}
