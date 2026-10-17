@@ -2235,7 +2235,7 @@ body .customer-app {
 }
 
 /* 客戶前台：柔和冰藍霧面玻璃主題 */
-html body .customer-app {
+html body :is(.customer-app, .maint-app) {
   --soft-ink: #304b5d;
   --soft-sub: #6f8796;
   --soft-blue: #729fb5;
@@ -2249,7 +2249,7 @@ html body .customer-app {
     linear-gradient(145deg, #c9dbe4 0%, #dce8ed 45%, #c5d8e1 100%);
   background-attachment: fixed;
 }
-html body .customer-app .customer-top {
+html body :is(.customer-app, .maint-app) .customer-top {
   height: 64px;
   color: #3f5969;
   background: #e9f2f5a8;
@@ -2258,48 +2258,48 @@ html body .customer-app .customer-top {
   backdrop-filter: blur(22px) saturate(105%);
   -webkit-backdrop-filter: blur(22px) saturate(105%);
 }
-html body .customer-app .customer-brand {
+html body :is(.customer-app, .maint-app) .customer-brand {
   color: #3c596a;
 }
-html body .customer-app .customer-brand > span {
+html body :is(.customer-app, .maint-app) .customer-brand > span {
   color: #587f92;
   background: #ffffff66;
   border: 1px solid #ffffffa6;
   box-shadow: none;
 }
-html body .customer-app .customer-brand small {
+html body :is(.customer-app, .maint-app) .customer-brand small {
   color: #79909d;
   border-color: #8fa9b65c;
 }
-html body .customer-app .customer-top nav button {
+html body :is(.customer-app, .maint-app) .customer-top nav button {
   color: #6d8492;
   background: transparent;
 }
-html body .customer-app .customer-top nav button:hover {
+html body :is(.customer-app, .maint-app) .customer-top nav button:hover {
   color: #3d6173;
   background: #ffffff2e;
 }
-html body .customer-app .customer-top nav button.active {
+html body :is(.customer-app, .maint-app) .customer-top nav button.active {
   color: #355f73;
   background: transparent;
   border-color: transparent;
   font-weight: 700;
 }
-html body .customer-app .customer-user div {
+html body :is(.customer-app, .maint-app) .customer-user div {
   color: #476879;
   background: #ffffff78;
   border: 1px solid #ffffffa8;
   box-shadow: none;
 }
-html body .customer-app .customer-main::before {
+html body :is(.customer-app, .maint-app) .customer-main::before {
   opacity: 0.1;
   background-image:
     linear-gradient(#678a9c12 1px, transparent 1px),
     linear-gradient(90deg, #678a9c12 1px, transparent 1px);
   background-size: 36px 36px;
 }
-html body .customer-app .portal-heading,
-html body .customer-app .customer-overview-hero {
+html body :is(.customer-app, .maint-app) .portal-heading,
+html body :is(.customer-app, .maint-app) .customer-overview-hero {
   min-height: auto;
   align-items: flex-end;
   padding: 22px 24px;
@@ -2313,45 +2313,45 @@ html body .customer-app .customer-overview-hero {
   backdrop-filter: blur(20px) saturate(108%);
   -webkit-backdrop-filter: blur(20px) saturate(108%);
 }
-html body .customer-app .portal-heading::after {
+html body :is(.customer-app, .maint-app) .portal-heading::after {
   display: none;
 }
-html body .customer-app .portal-heading p {
+html body :is(.customer-app, .maint-app) .portal-heading p {
   color: #688b9c;
 }
-html body .customer-app .portal-heading h1,
-html body .customer-app .customer-overview-hero h1 {
+html body :is(.customer-app, .maint-app) .portal-heading h1,
+html body :is(.customer-app, .maint-app) .customer-overview-hero h1 {
   color: #304e60;
   font-size: 28px;
   text-shadow: none;
 }
-html body .customer-app .portal-heading > div > span,
-html body .customer-app .customer-overview-hero > div > span {
+html body :is(.customer-app, .maint-app) .portal-heading > div > span,
+html body :is(.customer-app, .maint-app) .customer-overview-hero > div > span {
   color: #708896;
   text-shadow: none;
 }
-html body .customer-app .portal-section-head h2,
-html body .customer-app .customer-chart h2 {
+html body :is(.customer-app, .maint-app) .portal-section-head h2,
+html body :is(.customer-app, .maint-app) .customer-chart h2 {
   color: #365568;
 }
-html body .customer-app .portal-section-head p,
-html body .customer-app .customer-chart p {
+html body :is(.customer-app, .maint-app) .portal-section-head p,
+html body :is(.customer-app, .maint-app) .customer-chart p {
   color: #758c99;
 }
-html body .customer-app .portal-section-head button,
-html body .customer-app .portal-back {
+html body :is(.customer-app, .maint-app) .portal-section-head button,
+html body :is(.customer-app, .maint-app) .portal-back {
   color: #5f879a;
 }
-html body .customer-app .customer-summary article,
-html body .customer-app .customer-site-card,
-html body .customer-app .customer-upcoming,
-html body .customer-app .customer-metrics article,
-html body .customer-app .history-controls,
-html body .customer-app .customer-chart,
-html body .customer-app .customer-calendar,
-html body .customer-app .customer-log,
-html body .customer-app .portal-filter,
-html body .customer-app .empty {
+html body :is(.customer-app, .maint-app) .customer-summary article,
+html body :is(.customer-app, .maint-app) .customer-site-card,
+html body :is(.customer-app, .maint-app) .customer-upcoming,
+html body :is(.customer-app, .maint-app) .customer-metrics article,
+html body :is(.customer-app, .maint-app) .history-controls,
+html body :is(.customer-app, .maint-app) .customer-chart,
+html body :is(.customer-app, .maint-app) .customer-calendar,
+html body :is(.customer-app, .maint-app) .customer-log,
+html body :is(.customer-app, .maint-app) .portal-filter,
+html body :is(.customer-app, .maint-app) .empty {
   background: linear-gradient(145deg, #ffffff61, #eaf3f66b);
   border: 1px solid #ffffff91;
   box-shadow:
@@ -2360,148 +2360,148 @@ html body .customer-app .empty {
   backdrop-filter: blur(18px) saturate(105%);
   -webkit-backdrop-filter: blur(18px) saturate(105%);
 }
-html body .customer-app .customer-summary article,
-html body .customer-app .customer-site-card,
-html body .customer-app .customer-metrics article,
-html body .customer-app .customer-log {
+html body :is(.customer-app, .maint-app) .customer-summary article,
+html body :is(.customer-app, .maint-app) .customer-site-card,
+html body :is(.customer-app, .maint-app) .customer-metrics article,
+html body :is(.customer-app, .maint-app) .customer-log {
   border-radius: 14px;
 }
-html body .customer-app .customer-summary svg {
+html body :is(.customer-app, .maint-app) .customer-summary svg {
   color: #628ea2;
   background: #e8f2f675;
   border: 1px solid #ffffff8a;
   box-shadow: none;
 }
-html body .customer-app .customer-summary span,
-html body .customer-app .site-card-top small,
-html body .customer-app .site-kpis span {
+html body :is(.customer-app, .maint-app) .customer-summary span,
+html body :is(.customer-app, .maint-app) .site-card-top small,
+html body :is(.customer-app, .maint-app) .site-kpis span {
   color: #778d99;
 }
-html body .customer-app .customer-summary b,
-html body .customer-app .site-kpis b,
-html body .customer-app .customer-metrics article > strong {
+html body :is(.customer-app, .maint-app) .customer-summary b,
+html body :is(.customer-app, .maint-app) .site-kpis b,
+html body :is(.customer-app, .maint-app) .customer-metrics article > strong {
   color: #365367;
 }
-html body .customer-app .customer-site-card,
-html body .customer-app .customer-site-card:hover {
+html body :is(.customer-app, .maint-app) .customer-site-card,
+html body :is(.customer-app, .maint-app) .customer-site-card:hover {
   box-shadow:
     0 12px 26px #607d8c0e,
     inset 0 1px #ffffffb3;
 }
-html body .customer-app .customer-site-card:hover {
+html body :is(.customer-app, .maint-app) .customer-site-card:hover {
   background: linear-gradient(145deg, #ffffff78, #eef6f879);
   border-color: #ffffffb8;
   transform: translateY(-2px);
 }
-html body .customer-app .customer-metrics article::after {
+html body :is(.customer-app, .maint-app) .customer-metrics article::after {
   display: none;
 }
-html body .customer-app .customer-upcoming > button,
-html body .customer-app .customer-upcoming > button:hover {
+html body :is(.customer-app, .maint-app) .customer-upcoming > button,
+html body :is(.customer-app, .maint-app) .customer-upcoming > button:hover {
   color: #3e5c6d;
   background: transparent;
   border-color: #ffffff65;
 }
-html body .customer-app .customer-upcoming > button:hover {
+html body :is(.customer-app, .maint-app) .customer-upcoming > button:hover {
   background: #ffffff25;
 }
-html body .customer-app .customer-upcoming time {
+html body :is(.customer-app, .maint-app) .customer-upcoming time {
   color: #557c8e;
   background: #edf6f875;
   border-color: #ffffff96;
   box-shadow: none;
 }
-html body .customer-app .live-strip {
+html body :is(.customer-app, .maint-app) .live-strip {
   color: #6d8694;
   background: #eaf4f66e;
   border: 1px solid #ffffff96;
   box-shadow: inset 0 1px #ffffffa8;
 }
-html body .customer-app .live-strip span {
+html body :is(.customer-app, .maint-app) .live-strip span {
   color: #557f91;
 }
-html body .customer-app .live-strip i {
+html body :is(.customer-app, .maint-app) .live-strip i {
   background: #7eb4c8;
   box-shadow: none;
 }
-html body .customer-app .portal-btn,
-html body .customer-app .portal-btn:hover {
+html body :is(.customer-app, .maint-app) .portal-btn,
+html body :is(.customer-app, .maint-app) .portal-btn:hover {
   color: #f7fbfd;
   background: linear-gradient(135deg, #6c96a9, #648ba0);
   border-color: #91b7c7;
   box-shadow: 0 6px 14px #607d8c16;
 }
-html body .customer-app .portal-btn.outline,
-html body .customer-app .portal-heading .portal-btn.outline {
+html body :is(.customer-app, .maint-app) .portal-btn.outline,
+html body :is(.customer-app, .maint-app) .portal-heading .portal-btn.outline {
   color: #577b8d;
   background: #ffffff46;
   border-color: #ffffff91;
   box-shadow: inset 0 1px #ffffff9c;
 }
-html body .customer-app .portal-badge {
+html body :is(.customer-app, .maint-app) .portal-badge {
   color: #587d8f;
   background: #e8f3f678;
   border-color: #ffffff9e;
   box-shadow: none;
 }
-html body .customer-app .portal-badge.danger {
+html body :is(.customer-app, .maint-app) .portal-badge.danger {
   color: #9c6060;
   background: #f5e9e989;
   border-color: #ffffff8c;
 }
-html body .customer-app .portal-badge.warn {
+html body :is(.customer-app, .maint-app) .portal-badge.warn {
   color: #947754;
   background: #f5efe18c;
   border-color: #ffffff8c;
 }
-html body .customer-app .portal-filter input,
-html body .customer-app .portal-filter select,
-html body .customer-app .history-controls input,
-html body .customer-app .history-controls select,
-html body .customer-app .portal-form input,
-html body .customer-app .portal-form select,
-html body .customer-app .portal-form textarea {
+html body :is(.customer-app, .maint-app) .portal-filter input,
+html body :is(.customer-app, .maint-app) .portal-filter select,
+html body :is(.customer-app, .maint-app) .history-controls input,
+html body :is(.customer-app, .maint-app) .history-controls select,
+html body :is(.customer-app, .maint-app) .portal-form input,
+html body :is(.customer-app, .maint-app) .portal-form select,
+html body :is(.customer-app, .maint-app) .portal-form textarea {
   color: #405f70;
   background: #ffffff5c;
   border-color: #ffffff9c;
   box-shadow: inset 0 1px #ffffff80;
 }
-html body .customer-app .portal-filter input:focus,
-html body .customer-app .portal-filter select:focus,
-html body .customer-app .history-controls input:focus,
-html body .customer-app .history-controls select:focus,
-html body .customer-app .portal-form input:focus,
-html body .customer-app .portal-form select:focus,
-html body .customer-app .portal-form textarea:focus {
+html body :is(.customer-app, .maint-app) .portal-filter input:focus,
+html body :is(.customer-app, .maint-app) .portal-filter select:focus,
+html body :is(.customer-app, .maint-app) .history-controls input:focus,
+html body :is(.customer-app, .maint-app) .history-controls select:focus,
+html body :is(.customer-app, .maint-app) .portal-form input:focus,
+html body :is(.customer-app, .maint-app) .portal-form select:focus,
+html body :is(.customer-app, .maint-app) .portal-form textarea:focus {
   outline: 2px solid #8db5c650;
   border-color: #a6c7d4;
   box-shadow: none;
 }
-html body .customer-app .cal-days > div {
+html body :is(.customer-app, .maint-app) .cal-days > div {
   background: #ffffff25;
   border-color: #ffffff63;
 }
-html body .customer-app .cal-days .outside {
+html body :is(.customer-app, .maint-app) .cal-days .outside {
   background: #b8ccd43d;
 }
-html body .customer-app .cal-days button {
+html body :is(.customer-app, .maint-app) .cal-days button {
   color: #56798a;
   background: #e3f0f477;
   border-left-color: #87aec0;
   box-shadow: none;
 }
-html body .customer-app .log-photos div,
-html body .customer-app .upload-zone {
+html body :is(.customer-app, .maint-app) .log-photos div,
+html body :is(.customer-app, .maint-app) .upload-zone {
   color: #5f8191 !important;
   background: #e5f1f47a;
   border-color: #ffffff91;
 }
-html body .customer-app .portal-overlay {
+html body :is(.customer-app, .maint-app) .portal-overlay {
   background: #566d7a66;
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
 }
-html body .customer-app .portal-modal {
+html body :is(.customer-app, .maint-app) .portal-modal {
   color: #365467;
   background: linear-gradient(145deg, #eff7f9e8, #dbe9eee8);
   border: 1px solid #ffffffa3;
@@ -2509,7 +2509,7 @@ html body .customer-app .portal-modal {
   backdrop-filter: blur(28px) saturate(105%);
   -webkit-backdrop-filter: blur(28px) saturate(105%);
 }
-html body .customer-app .customer-bottom {
+html body :is(.customer-app, .maint-app) .customer-bottom {
   color: #557181;
   background: #e3eef2dd;
   border-color: #ffffff8c;
@@ -2517,10 +2517,10 @@ html body .customer-app .customer-bottom {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
 }
-html body .customer-app .customer-bottom button {
+html body :is(.customer-app, .maint-app) .customer-bottom button {
   color: #78909c;
 }
-html body .customer-app .customer-bottom button.active {
+html body :is(.customer-app, .maint-app) .customer-bottom button.active {
   color: #4d7587;
   font-weight: 700;
 }

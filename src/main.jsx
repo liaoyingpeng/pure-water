@@ -14,6 +14,8 @@ import {
 } from "recharts";
 import "./style.css";
 import "./portals.css";
+import "./glass.css";
+import "./customer-tech.css";
 import { PortalRoot } from "./portals";
 import {
   readSharedData,
@@ -229,7 +231,7 @@ function Modal({ title, onClose, children, wide = false }) {
 function Chart({
   dataKey = "eff",
   height = 180,
-  color = "#176b58",
+  color = "#729fb5",
   data = trend,
   tickInterval = 5,
 }) {
@@ -585,7 +587,7 @@ function WarRoom({ site, go }) {
             <Chart
               dataKey={k}
               height={130}
-              color={state === "異常" ? "#c94b45" : "#176b58"}
+              color={state === "異常" ? "#c94b45" : "#729fb5"}
             />
             <small>最近 24 小時趨勢</small>
           </div>

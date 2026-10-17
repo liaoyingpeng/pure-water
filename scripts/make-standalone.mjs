@@ -11,7 +11,7 @@ const [css, js] = await Promise.all([
   readFile(resolve(root, "dist", cssPath.replace(/^\//, "")), "utf8"),
   readFile(resolve(root, "dist", jsPath.replace(/^\//, "")), "utf8"),
 ]);
-const standalone = `<!doctype html><html lang="zh-Hant"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#122d28"><title>水利淨節能管理系統</title><style>${css}</style></head><body><div id="root"></div><script type="module">${js.replaceAll("</script>", "<\\/script>")}</script></body></html>`;
+const standalone = `<!doctype html><html lang="zh-Hant"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#c9dbe4"><title>水利淨節能管理系統</title><style>${css}</style></head><body><div id="root"></div><script type="module">${js.replaceAll("</script>", "<\\/script>")}</script></body></html>`;
 await Promise.all([
   writeFile(resolve(root, "index.html"), standalone),
   writeFile(resolve(root, "customer.html"), standalone),

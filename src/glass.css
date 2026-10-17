@@ -1,0 +1,69 @@
+/* 管理與維護入口沿用客戶前台的冰藍霧面玻璃材質。 */
+.app, .maint-app {
+  --green: #648ba0;
+  --green-2: #52798e;
+  --green-bg: #e8f3f678;
+  --ink: #304b5d;
+  --sub: #5e7889;
+  --line: #ffffff80;
+  --radius: 14px;
+  color: var(--ink);
+  background: radial-gradient(circle at 16% 7%, #ffffff8f, transparent 27%), radial-gradient(circle at 86% 18%, #b8d7e36b, transparent 31%), radial-gradient(circle at 52% 92%, #cbdde56b, transparent 34%), linear-gradient(145deg, #c9dbe4 0%, #dce8ed 45%, #c5d8e1 100%);
+  background-attachment: fixed;
+}
+body { background: #c9dbe4; }
+.app :is(.sidebar, .topbar), .maint-app :is(.maint-top, .maint-nav, .submit-bar) {
+  color: #3f5969;
+  background: #e9f2f5a8;
+  border-color: #ffffff8c;
+  box-shadow: 0 8px 24px #526f7f12;
+  backdrop-filter: blur(22px) saturate(105%);
+  -webkit-backdrop-filter: blur(22px) saturate(105%);
+}
+.app :is(.brand, .user) { border-color: #ffffff80; }
+.app :is(.brand b, .brand span, nav small, nav button, .user b, .user small, .brand .close) { color: #496b7e; }
+.app :is(.brandmark, .user > div), .maint-app .maint-top > div > span {
+  color: #587f92; background: #ffffff66; border: 1px solid #ffffffa6;
+}
+.app nav button:hover, .app nav button.active, .app .icon:hover, .maint-app .maint-tabs button.active {
+  color: #355f73; background: #ffffff78;
+}
+.app :is(.panel, .stat, .metric, .filters, .log, .metric-menu button, .energy-kpi, .energy-runbar),
+.maint-app :is(.maint-progress, .job-card, .work-hero, .work-detail, .work-note, .compact-metrics article, .maint-date-range, .prefill, .maint-upload) {
+  color: var(--ink);
+  background: linear-gradient(145deg, #ffffff61, #eaf3f66b);
+  border: 1px solid #ffffff91;
+  border-radius: 14px;
+  box-shadow: 0 12px 28px #607b8910, inset 0 1px #ffffffb5;
+  backdrop-filter: blur(18px) saturate(105%);
+  -webkit-backdrop-filter: blur(18px) saturate(105%);
+}
+.app .pagehead {
+  padding: 22px 24px; border: 1px solid #ffffff94; border-radius: 14px;
+  background: linear-gradient(135deg, #ffffff5c, #e5f0f47a);
+  box-shadow: 0 14px 34px #607d8c13, inset 0 1px #ffffffbd;
+}
+.app .btn, .maint-app .maint-progress i { background: linear-gradient(135deg, #6c96a9, #648ba0); border-color: #91b7c7; }
+.app .btn:hover { background: #52798e; }
+.app .btn.ghost { color: #496f83; background: #ffffff46; border-color: #ffffff91; }
+.app .btn.link { color: #52798e; background: transparent; border: 0; }
+.app :is(input, select, textarea, .search), .maint-app .maint-form textarea {
+  color: #405f70; background-color: #ffffff5c; border-color: #ffffff9c;
+}
+.app :is(input, select, textarea, button):focus-visible,
+.maint-app :is(input, select, textarea, button):focus-visible { outline: 2px solid #52798e; outline-offset: 3px; }
+.app :is(th, .days .outside, .seg, .range-tabs), .maint-app :is(.job-time, .maint-tabs, .photo-previews div) { color: #557181; background: #e8f3f678; }
+.app :is(td, .event, .detail-grid div), .maint-app .work-detail > div { border-color: #ffffff65; }
+.app tbody tr:hover { background: #ffffff35; }
+.app :is(.updatebar, .note, .cal-event, .energy-ai-intro, .energy-library-head, .settings-layout > aside button.active, .avatar) { color: #557c8e; background: #eaf4f66e; border-color: #ffffff96; }
+.app :is(.badge:not(.danger):not(.muted), .stat-icon:not(.s2):not(.s3):not(.s4)) { color: #587d8f; background: #e8f3f678; }
+.app .dot:not(.異常):not(.停止) { background: #7eb4c8; }
+.app .overlay { background: #566d7a66; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+.app .modal { color: #365467; background: linear-gradient(145deg, #eff7f9f5, #dbe9eef5); border: 1px solid #ffffffa3; box-shadow: 0 24px 60px #536d7b38; }
+.maint-app :is(.maint-top button, .maint-nav button.active, .maint-welcome p, .maint-page-title small, .maint-section-title button, .job-time b, .work-detail > div > svg, .maint-date-range svg, .prefill > span, .maint-upload) { color: #52798e; }
+.maint-app :is(.maint-nav button, .maint-welcome > span, .maint-page-title p, .job-time span, .job-info small, .job-info > div > span, .work-hero > span, .work-hero p, .work-detail span, .work-note p, .prefill p, .prefill small, .maint-upload span, .success-screen p) { color: #5e7889; }
+.maint-app :is(.work-detail b, .maint-date-range b, .maint-back) { color: #304b5d; }
+.maint-app .maint-progress > div:last-child { background: #b8ccd43d; }
+.maint-app .success-screen > span { color: #52798e; background: #e8f3f678; }
+@media (max-width: 760px) { .app .pagehead { padding: 18px 16px; } }
+@media (prefers-reduced-motion: reduce) { .app *, .maint-app * { transition: none !important; scroll-behavior: auto !important; } }

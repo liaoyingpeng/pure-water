@@ -131,7 +131,7 @@ function CustomerLayout({ page, children }) {
     ["/customer/logs", "維護紀錄", I.ClipboardList],
   ];
   return (
-    <div className="customer-app">
+    <div className={"customer-app" + (page === "/customer" ? " customer-home" : "")}>
       <header className="customer-top">
         <button className="customer-brand" onClick={() => go("/customer")}>
           <span>
