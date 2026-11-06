@@ -1,3 +1,4 @@
+import { getAppPath } from "./routing.mjs";
 import React, { useMemo, useState, useEffect } from "react";
 import { createRoot } from "react-dom/client";
 import * as I from "lucide-react";
@@ -18,6 +19,7 @@ import "./glass.css";
 import "./customer-tech.css";
 import { PortalRoot } from "./portals";
 import {
+  calendarMonth,
   readSharedData,
   addSharedSchedule,
   sites as sharedSites,
@@ -52,6 +54,8 @@ const sites = [
   flow: x[4],
   alert: x[5],
   updated: x[6],
+  tda: null,
+  tds: null,
 }));
 const trend = Array.from({ length: 24 }, (_, i) => ({
   t: `${String(i).padStart(2, "0")}:00`,
@@ -592,6 +596,16 @@ function WarRoom({ site, go }) {
             <small>最近 24 小時趨勢</small>
           </div>
         ))}
+        {["tda", "tds"].map((key) => (
+          <div className="metric site-numeric-metric" key={key}>
+            <div className="metric-head">
+              <span>{key.toUpperCase()}</span>
+            </div>
+            <div className="metric-value">
+              <strong>{site[key] ?? "—"}</strong>
+            </div>
+          </div>
+        ))}
       </div>
     </>
   );
@@ -848,7 +862,7 @@ function Calendar() {
       (typeFilter === "全部維護類型" || schedule.type === typeFilter)
     );
   });
-  let days = Array.from({ length: 35 }, (_, i) => i - 2);
+  const calendar = calendarMonth(2026, month);
   const selectedSiteId = modal && modal !== "add" ? modal.siteId : draft.siteId;
   const selectedCompany =
     sharedSite(selectedSiteId)?.company || sharedSites[0]?.company || "";
@@ -926,9 +940,19 @@ function Calendar() {
             <button className="icon" onClick={() => setMonth(month + 1)}>
               <I.ChevronRight />
             </button>
-            <Button kind="ghost">今天</Button>
+            <Button
+              kind="ghost"
+              onClick={() => {
+                const now = new Date();
+                setMonth((now.getFullYear() - 2026) * 12 + now.getMonth());
+              }}
+            >
+              今天
+            </Button>
           </div>
-          <h2>2026 年 {month + 1} 月</h2>
+          <h2>
+            {calendar.year} 年 {calendar.month + 1} 月
+          </h2>
           <div className="seg">
             <button className="active">月</button>
             <button>週</button>
@@ -940,16 +964,11 @@ function Calendar() {
           ))}
         </div>
         <div className="days">
-          {days.map((d, i) => {
-            let dateDay = d < 1 ? 30 + d : d > 31 ? d - 31 : d;
-            let events = filteredSchedules.filter(
-              (x) =>
-                +x.date.slice(5, 7) === month + 1 &&
-                +x.date.slice(8) === dateDay,
-            );
+          {calendar.days.map((day) => {
+            const events = filteredSchedules.filter((x) => x.date === day.key);
             return (
-              <div key={i} className={d < 1 || d > 31 ? "outside" : ""}>
-                <span>{dateDay}</span>
+              <div key={day.key} className={day.outside ? "outside" : ""}>
+                <span>{day.day}</span>
                 {events.map((e) => (
                   <button
                     key={e.id}
@@ -1983,17 +2002,9 @@ function App() {
   );
 }
 function Root() {
-  const getPath = () => {
-    if (location.protocol !== "file:") return location.pathname;
-    if (location.hash.startsWith("#/")) return location.hash.slice(1);
-    const file = decodeURIComponent(location.pathname.split("/").pop() || "");
-    if (file === "customer.html") return "/customer";
-    if (file === "maintenance.html") return "/maintenance";
-    return "/admin";
-  };
+  const getPath = () => getAppPath(location);
   const [path, setPath] = useState(getPath);
   useEffect(() => {
-    if (path === "/") history.replaceState({}, "", "/admin");
     const sync = () => setPath(getPath());
     addEventListener("popstate", sync);
     addEventListener("hashchange", sync);

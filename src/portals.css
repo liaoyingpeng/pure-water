@@ -2524,3 +2524,28 @@ html body :is(.customer-app, .maint-app) .customer-bottom button.active {
   color: #4d7587;
   font-weight: 700;
 }
+
+/* Keep the customer calendar layout visible on the engineering mobile portal. */
+.maint-app .maint-work-calendar {
+  display: block;
+  overflow-x: auto;
+}
+.maint-work-calendar .cal-week,
+.maint-work-calendar .cal-days {
+  grid-template-columns: repeat(7, minmax(90px, 1fr));
+}
+.maint-work-calendar button {
+  cursor: pointer;
+}
+.maint-work-calendar button:focus-visible {
+  outline: 2px solid #628ea2;
+  outline-offset: 2px;
+}
+
+.customer-app .site-kpis {
+  flex-wrap: wrap;
+}
+.customer-metrics .site-numeric-metric,
+.compact-metrics .site-numeric-metric {
+  align-self: start;
+}

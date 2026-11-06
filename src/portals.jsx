@@ -10,6 +10,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import {
+  calendarMonth,
   DataProvider,
   useData,
   sites,
@@ -113,13 +114,7 @@ function PortalModal({ title, onClose, children }) {
   );
 }
 function go(path) {
-  if (location.protocol === "file:") {
-    location.hash = path;
-    window.scrollTo(0, 0);
-    return;
-  }
-  history.pushState({}, "", path);
-  window.dispatchEvent(new PopStateEvent("popstate"));
+  location.hash = path;
   window.scrollTo(0, 0);
 }
 
@@ -131,7 +126,11 @@ function CustomerLayout({ page, children }) {
     ["/customer/logs", "維護紀錄", I.ClipboardList],
   ];
   return (
-    <div className={"customer-app" + (page === "/customer" ? " customer-home" : "")}>
+    <div
+      className={
+        "customer-app" + (page === "/customer" ? " customer-home" : "")
+      }
+    >
       <header className="customer-top">
         <button className="customer-brand" onClick={() => go("/customer")}>
           <span>
@@ -173,14 +172,45 @@ function CustomerLayout({ page, children }) {
     </div>
   );
 }
+function SiteNumericMetrics({ site, compact = false }) {
+  return ["tda", "tds"].map((key) => (
+    <article key={key} className="site-numeric-metric">
+      {compact ? (
+        <span>{key.toUpperCase()}</span>
+      ) : (
+        <header>
+          <span>{key.toUpperCase()}</span>
+        </header>
+      )}
+      {compact ? (
+        <b>{site[key] ?? "—"}</b>
+      ) : (
+        <strong>{site[key] ?? "—"}</strong>
+      )}
+    </article>
+  ));
+}
 function CustomerHome() {
   const { schedules } = useData();
-  let upcoming = schedules
+  const reminderEnd = new Date(`${today}T00:00:00`);
+  reminderEnd.setDate(reminderEnd.getDate() + 30);
+  const upcoming = schedules
     .filter(
-      (x) =>
-        customerSites.some((s) => s.id === x.siteId) && x.status !== "已完成",
+      (job) =>
+        customerSites.some((site) => site.id === job.siteId) &&
+        job.status !== "已完成" &&
+        job.date >= today &&
+        new Date(`${job.date}T00:00:00`) <= reminderEnd,
     )
-    .slice(0, 4);
+    .sort((a, b) =>
+      `${a.date}T${a.start}`.localeCompare(`${b.date}T${b.start}`),
+    );
+  const reminderLabel = (date) => {
+    const days = Math.round(
+      (new Date(`${date}T00:00:00`) - new Date(`${today}T00:00:00`)) / 86400000,
+    );
+    return days === 0 ? "今天" : days === 1 ? "明天" : `${days} 天後`;
+  };
   return (
     <>
       <div className="portal-heading customer-overview-hero">
@@ -189,6 +219,53 @@ function CustomerHome() {
           <h1>午安，中華電信</h1>
           <span>以下是您公司案場的最新運作概況。</span>
         </div>
+      </div>
+      <div className="portal-section-head">
+        <div>
+          <h2>
+            <I.CalendarDays /> 維護日曆提醒
+          </h2>
+          <p>
+            未來 30 天共有 {upcoming.length} 項維護行程，請提前安排現場配合。
+          </p>
+        </div>
+        <button onClick={() => go("/customer/calendar")}>
+          查看日曆 <I.ArrowRight />
+        </button>
+      </div>
+      <div className="customer-upcoming customer-calendar-reminders">
+        {upcoming.slice(0, 4).map((x) => {
+          let s = getSite(x.siteId);
+          return (
+            <button key={x.id} onClick={() => go("/customer/calendar")}>
+              <time>
+                <b>{x.date.slice(8)}</b>
+                <span>{x.date.slice(5, 7)} 月</span>
+              </time>
+              <div>
+                <strong className="calendar-reminder-label">
+                  {reminderLabel(x.date)}
+                </strong>
+                <b>
+                  {s.name} · {x.type}
+                </b>
+                <span>
+                  {x.start}–{x.end}　
+                  {getEngineer(x.engineerId)?.name || "待指派"}
+                </span>
+              </div>
+              <Badge>{x.status}</Badge>
+              <I.ChevronRight />
+            </button>
+          );
+        })}
+        {upcoming.length === 0 && (
+          <div className="calendar-reminder-empty">
+            <I.CalendarCheck />
+            <b>近期沒有維護行程</b>
+            <p>未來 30 天尚無待執行排程，可前往維護日曆查看或新增行程。</p>
+          </div>
+        )}
       </div>
       <section className="customer-summary">
         {[
@@ -217,39 +294,6 @@ function CustomerHome() {
         {customerSites.map((s) => (
           <SiteCard key={s.id} site={s} />
         ))}
-      </div>
-      <div className="portal-section-head">
-        <div>
-          <h2>待辦與近期維護</h2>
-          <p>即將進行的維護安排</p>
-        </div>
-        <button onClick={() => go("/customer/calendar")}>
-          查看日曆 <I.ArrowRight />
-        </button>
-      </div>
-      <div className="customer-upcoming">
-        {upcoming.map((x) => {
-          let s = getSite(x.siteId);
-          return (
-            <button key={x.id} onClick={() => go("/customer/calendar")}>
-              <time>
-                <b>{x.date.slice(8)}</b>
-                <span>{x.date.slice(5, 7)} 月</span>
-              </time>
-              <div>
-                <b>
-                  {s.name} · {x.type}
-                </b>
-                <span>
-                  {x.start}–{x.end}　
-                  {getEngineer(x.engineerId)?.name || "待指派"}
-                </span>
-              </div>
-              <Badge>{x.status}</Badge>
-              <I.ChevronRight />
-            </button>
-          );
-        })}
       </div>
     </>
   );
@@ -282,6 +326,12 @@ function SiteCard({ site }) {
             {site.flow}
             <small> CMH</small>
           </b>
+        </span>
+        <span>
+          TDA<b>{site.tda ?? "—"}</b>
+        </span>
+        <span>
+          TDS<b>{site.tds ?? "—"}</b>
         </span>
       </div>
       <MiniChart site={site} keyName="flow" />
@@ -387,6 +437,7 @@ function CustomerWarRoom({ site }) {
             <footer>最近 24 小時趨勢</footer>
           </article>
         ))}
+        <SiteNumericMetrics site={site} />
       </div>
     </>
   );
@@ -549,6 +600,7 @@ function CustomerCalendar() {
   const [modal, setModal] = useState(false),
     [siteId, setSiteId] = useState("all"),
     [month, setMonth] = useState(9);
+  const calendar = calendarMonth(2026, month);
   let list = schedules.filter(
     (x) =>
       customerSites.some((s) => s.id === x.siteId) &&
@@ -583,7 +635,9 @@ function CustomerCalendar() {
           <button onClick={() => setMonth((x) => x - 1)}>
             <I.ChevronLeft />
           </button>
-          <h2>2026 年 {month + 1} 月</h2>
+          <h2>
+            {calendar.year} 年 {calendar.month + 1} 月
+          </h2>
           <button onClick={() => setMonth((x) => x + 1)}>
             <I.ChevronRight />
           </button>
@@ -594,16 +648,11 @@ function CustomerCalendar() {
           ))}
         </div>
         <div className="cal-days">
-          {Array.from({ length: 35 }, (_, i) => i - 2).map((d, i) => {
-            let actual = d < 1 ? 30 + d : d > 31 ? d - 31 : d;
-            let ev = list.filter(
-              (x) =>
-                +x.date.slice(8) === actual &&
-                +x.date.slice(5, 7) === month + 1,
-            );
+          {calendar.days.map((day) => {
+            const ev = list.filter((x) => x.date === day.key);
             return (
-              <div key={i} className={d < 1 || d > 31 ? "outside" : ""}>
-                <span>{actual}</span>
+              <div key={day.key} className={day.outside ? "outside" : ""}>
+                <span>{day.day}</span>
                 {ev.map((x) => (
                   <button key={x.id}>
                     <b>
@@ -620,9 +669,15 @@ function CustomerCalendar() {
         </div>
       </section>
       <div className="mobile-schedule-list">
-        {list.map((x) => (
-          <ScheduleRow key={x.id} item={x} />
-        ))}
+        {list
+          .filter((x) =>
+            x.date.startsWith(
+              `${calendar.year}-${String(calendar.month + 1).padStart(2, "0")}-`,
+            ),
+          )
+          .map((x) => (
+            <ScheduleRow key={x.id} item={x} />
+          ))}
       </div>
       {modal && (
         <PortalModal title="新增維護排程" onClose={() => setModal(false)}>
@@ -1001,66 +1056,88 @@ function MaintenanceData({ site }) {
             <MiniChart site={site} keyName={k} height={55} />
           </article>
         ))}
+        <SiteNumericMetrics site={site} compact />
       </div>
     </>
   );
 }
 function MaintenanceCalendar() {
   const { schedules } = useData();
-  const [mode, setMode] = useState("本月");
-  const ranges = {
-    今天: { start: today, end: today, label: "2026/09/30" },
-    本週: {
-      start: "2026-09-28",
-      end: "2026-10-04",
-      label: "2026/09/28－2026/10/04",
-    },
-    本月: {
-      start: "2026-09-01",
-      end: "2026-09-30",
-      label: "2026/09/01－2026/09/30",
-    },
-  };
-  const activeRange = ranges[mode];
-  let jobs = schedules.filter(
-    (job) =>
-      job.engineerId === "eng-001" &&
-      job.date >= activeRange.start &&
-      job.date <= activeRange.end,
-  );
+  const [month, setMonth] = useState(() => new Date(`${today}T00:00:00`));
+  const year = month.getFullYear();
+  const monthIndex = month.getMonth();
+  const first = new Date(year, monthIndex, 1);
+  const cellCount =
+    Math.ceil(
+      (first.getDay() + new Date(year, monthIndex + 1, 0).getDate()) / 7,
+    ) * 7;
+  const jobs = schedules
+    .filter((job) => job.engineerId === "eng-001")
+    .sort((a, b) => a.start.localeCompare(b.start));
   return (
     <>
       <div className="maint-page-title">
         <small>我的排程</small>
         <h1>工作日曆</h1>
       </div>
-      <div className="maint-tabs">
-        {["今天", "本週", "本月"].map((x) => (
+      <section
+        className="customer-calendar maint-work-calendar"
+        aria-label="工作月曆"
+      >
+        <header>
           <button
-            key={x}
-            className={mode === x ? "active" : ""}
-            onClick={() => setMode(x)}
+            aria-label="上一個月"
+            onClick={() => setMonth(new Date(year, monthIndex - 1, 1))}
           >
-            {x}
+            <I.ChevronLeft />
           </button>
-        ))}
-      </div>
-      <div className="maint-date-range">
-        <I.CalendarDays />
-        <span>{mode === "今天" ? "當日" : `${mode}日期區間`}</span>
-        <b>{activeRange.label}</b>
-      </div>
-      <div className="job-list simple">
-        {jobs.length ? (
-          jobs.map((x, i) => <JobCard key={x.id} job={x} index={i} />)
-        ) : (
-          <div className="empty">
-            <I.CalendarDays />
-            <h3>此區間沒有工作</h3>
-            <p>請切換其他時間區段查看排程。</p>
-          </div>
-        )}
-      </div>
+          <h2 aria-live="polite">
+            {year} 年 {monthIndex + 1} 月
+          </h2>
+          <button
+            aria-label="下一個月"
+            onClick={() => setMonth(new Date(year, monthIndex + 1, 1))}
+          >
+            <I.ChevronRight />
+          </button>
+        </header>
+        <div className="cal-week">
+          {["日", "一", "二", "三", "四", "五", "六"].map((day) => (
+            <b key={day}>{day}</b>
+          ))}
+        </div>
+        <div className="cal-days">
+          {Array.from({ length: cellCount }, (_, index) => {
+            const date = new Date(year, monthIndex, index - first.getDay() + 1);
+            const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+            return (
+              <div
+                key={key}
+                className={date.getMonth() !== monthIndex ? "outside" : ""}
+              >
+                <span aria-current={key === today ? "date" : undefined}>
+                  {date.getDate()}
+                </span>
+                {jobs
+                  .filter((job) => job.date === key)
+                  .map((job) => (
+                    <button
+                      key={job.id}
+                      onClick={() => go("/maintenance/job/" + job.id)}
+                    >
+                      <b>
+                        {job.start} {job.type}
+                      </b>
+                      <small>
+                        {getSite(job.siteId).name} · {job.status}
+                      </small>
+                    </button>
+                  ))}
+              </div>
+            );
+          })}
+        </div>
+      </section>
     </>
   );
 }
